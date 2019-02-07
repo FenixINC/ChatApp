@@ -9,8 +9,8 @@
     </style>
 
     <style name="AppTheme.Toolbar">
-        <!--<item name="android:background">@color/white</item>-->
-        <!--<item name="android:textColorPrimary">@color/text</item>-->
-        <!--<item name="android:textColorSecondary">@color/text</item>-->
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 </resources>
