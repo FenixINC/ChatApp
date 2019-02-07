@@ -2,12 +2,12 @@ package com.tests.commercial.chatapp
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mBtnLogin: Button
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var mReference: DatabaseReference
+    private lateinit var mDbReference: DatabaseReference
 
     private val TAG_DIALOG_PROGRESS = "tag_dialog_progress"
 
@@ -54,17 +54,20 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
+
+                    mDbReference = FirebaseDatabase.getInstance().reference
                     val firebaseUser = mAuth.currentUser!!
                     val userId = firebaseUser.uid
 
-                    mReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+                    mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
 
                     val hashMap = HashMap<String, String>()
                     hashMap["id"] = userId
-                    hashMap["imageURL"] = "default"
-                    hashMap["status"] = "offline"
+                    hashMap["user_name"] = "Test"
+                    hashMap["user_photo"] = "photo_url"
+                    hashMap["user_status"] = "Hi everyone there!"
 
-                    mReference.setValue(hashMap).addOnCompleteListener { task ->
+                    mDbReference.setValue(hashMap).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

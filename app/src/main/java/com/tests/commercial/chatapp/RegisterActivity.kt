@@ -2,17 +2,16 @@ package com.tests.commercial.chatapp
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.tests.commercial.chatapp.dialogs.ProgressDialog
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mBtnRegister: Button
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var mReference: DatabaseReference
+    private lateinit var mDbReference: DatabaseReference
 
     private val TAG_DIALOG_PROGRESS = "tag_dialog_progress"
 
@@ -61,29 +60,25 @@ class RegisterActivity : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
-                    val firebaseUser = mAuth.currentUser!!
-                    val userId = firebaseUser.uid
+                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    val uid = currentUser?.uid
+                    mDbReference = FirebaseDatabase.getInstance().reference.child("Users").child(uid!!)
 
-                    mReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
+                    val userMap = HashMap<String, String>()
+                    userMap["id"] = mAuth.currentUser?.uid.toString()
+                    userMap["user_name"] = username
+                    userMap["user_status"] = "Hi there"
+                    userMap["user_photo"] = "Image"
 
-                    val hashMap = HashMap<String, String>()
-                    hashMap["id"] = userId
-                    hashMap["username"] = username
-                    hashMap["imageURL"] = "default"
-                    hashMap["status"] = "offline"
-                    hashMap["search"] = username.toLowerCase()
-
-                    mReference.setValue(hashMap).addOnCompleteListener { task ->
+                    mDbReference.setValue(userMap).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                             startActivity(intent)
                             finish()
                         }
+                        hideProgressDialog()
                     }
-
-                    hideProgressDialog()
                 } else {
                     Toast.makeText(
                         this@RegisterActivity,
