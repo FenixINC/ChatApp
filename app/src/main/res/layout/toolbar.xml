@@ -7,4 +7,5 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme.Toolbar"
+        style="@style/AppTheme.Toolbar"
         tools:showIn="@layout/activity_main"/>

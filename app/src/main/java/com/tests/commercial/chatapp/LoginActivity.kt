@@ -2,6 +2,7 @@ package com.tests.commercial.chatapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.Button
@@ -10,6 +11,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.tests.commercial.chatapp.dialogs.ProgressDialog
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,16 +22,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mReference: DatabaseReference
 
+    private val TAG_DIALOG_PROGRESS = "tag_dialog_progress"
+
     override
     fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.activity_login)
 
         mEmail = findViewById(R.id.email)
         mPassword = findViewById(R.id.password)
-
         mBtnLogin = findViewById(R.id.btn_register)
-
         mAuth = FirebaseAuth.getInstance()
 
         mBtnLogin.setOnClickListener {
@@ -48,10 +50,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun register(email: String, password: String) {
-
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
                     val firebaseUser = mAuth.currentUser!!
                     val userId = firebaseUser.uid
 
@@ -70,6 +72,8 @@ class LoginActivity : AppCompatActivity() {
                             finish()
                         }
                     }
+
+                    hideProgressDialog()
                 } else {
                     Toast.makeText(
                         this@LoginActivity,
@@ -78,5 +82,12 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+
+    private fun hideProgressDialog() {
+        val fragment = supportFragmentManager.findFragmentByTag(TAG_DIALOG_PROGRESS)
+        if (fragment != null && fragment is DialogFragment) {
+            fragment.dismissAllowingStateLoss()
+        }
     }
 }

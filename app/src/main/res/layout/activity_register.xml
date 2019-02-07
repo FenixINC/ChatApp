@@ -1,53 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".RegisterActivity"
             android:orientation="vertical">
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/black"
-                  android:textSize="20sp"
-                  android:text="Create New Account"
-                  android:layout_marginBottom="24dp"
-                  android:gravity="center"/>
-
-        <EditText
-                android:id="@+id/username"
+        <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:hint="Username"
-                android:inputType="text"/>
+                android:layout_height="wrap_content"/>
 
-        <EditText
-                android:id="@+id/email"
+        <LinearLayout
+                android:layout_marginTop="16dp"
+                android:padding="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:hint="Email"
-                android:inputType="textEmailAddress"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:textColor="@color/black"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textColor="@color/black"
+                      android:textSize="20sp"
+                      android:text="Create New Account"
+                      android:layout_marginBottom="24dp"
+                      android:gravity="center"/>
 
-        <Button android:layout_width="match_parent"
-                android:layout_marginTop="24dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_register"
-                android:text="Register"
-                android:textColor="@color/white"
-                android:background="@color/green"
-                android:textAllCaps="false"/>
+            <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:hint="Username"
+                    android:inputType="text"/>
+
+            <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"/>
+
+            <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"/>
+
+            <Button android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btn_register"
+                    android:text="Register"
+                    android:textColor="@color/white"
+                    android:background="@color/purple"
+                    android:textAllCaps="false"/>
+        </LinearLayout>
     </LinearLayout>
 </layout>

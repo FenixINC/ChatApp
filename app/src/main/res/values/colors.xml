@@ -13,6 +13,8 @@
     <color name="materialDarkGrey">#DFDFDF</color>
     <color name="white">#ffffff</color>
 
+    <color name="purple">#512da7</color>
+    <color name="red">#F44336</color>
     <color name="green">#2B572B</color>
 
     <color name="grayDark">#273d56</color>

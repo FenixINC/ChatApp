@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:textColor="@color/white"
-                android:background="@color/green"
+                android:background="@color/purple"
                 android:textAllCaps="false"/>
     </LinearLayout>
 </layout>
