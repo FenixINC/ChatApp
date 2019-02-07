@@ -3,8 +3,8 @@ package com.tests.commercial.chatapp.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
+import androidx.fragment.app.DialogFragment
 import com.tests.commercial.chatapp.databinding.DialogProgressBinding
 import timber.log.Timber
 
@@ -34,6 +34,5 @@ class ProgressDialog : DialogFragment() {
             .setView(binding.root)
             .setCancelable(false)
             .create()
-
     }
 }
