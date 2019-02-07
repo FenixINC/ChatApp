@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".RegisterActivity"
+            android:orientation="vertical">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/black"
+                  android:textSize="20sp"
+                  android:text="Create New Account"
+                  android:layout_marginBottom="24dp"
+                  android:gravity="center"/>
+
+        <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:hint="Username"
+                android:inputType="text"/>
+
+        <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:hint="Email"
+                android:inputType="textEmailAddress"/>
+
+        <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"/>
+
+        <Button android:layout_width="match_parent"
+                android:layout_marginTop="24dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_register"
+                android:text="Register"
+                android:textColor="@color/white"
+                android:background="@color/green"
+                android:textAllCaps="false"/>
+    </LinearLayout>
+</layout>
