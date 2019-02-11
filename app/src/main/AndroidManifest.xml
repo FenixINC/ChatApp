@@ -26,6 +26,8 @@
         <activity android:name=".RegisterActivity"/>
 
         <activity android:name=".SettingsActivity"/>
+
+        <activity android:name=".content.MessageActivity"/>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,7 +20,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mBtnLogin: Button
 
     private lateinit var mAuth: FirebaseAuth
-    //    private lateinit var mDbReference: DatabaseReference
     private lateinit var mFirebaseUser: FirebaseUser
 
     private val TAG_DIALOG_PROGRESS = "tag_dialog_progress"
@@ -28,6 +28,14 @@ class LoginActivity : AppCompatActivity() {
     fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+        title = "Login"
 
         mEmail = findViewById(R.id.email)
         mPassword = findViewById(R.id.password)
@@ -66,8 +74,8 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this@LoginActivity, "Failed authentication!", Toast.LENGTH_SHORT).show()
             }
+            hideProgressDialog()
         }
-        hideProgressDialog()
     }
 
     private fun hideProgressDialog() {

@@ -33,6 +33,9 @@ class RegisterActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
         title = "Registration"
 
         mUsername = findViewById(R.id.username)
@@ -79,7 +82,6 @@ class RegisterActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }
-                        hideProgressDialog()
                     }
                 } else {
                     Toast.makeText(
@@ -88,6 +90,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+                hideProgressDialog()
             }
     }
 

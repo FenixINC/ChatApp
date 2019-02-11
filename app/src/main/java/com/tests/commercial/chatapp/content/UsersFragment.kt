@@ -1,5 +1,6 @@
 package com.tests.commercial.chatapp.content
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,7 +54,9 @@ class UsersFragment : Fragment(), OnUserListener {
     }
 
     override fun onUserClick(user: User) {
-
+        val intent = Intent(context, MessageActivity::class.java)
+        intent.putExtra("userId", user.id)
+        startActivity(intent)
     }
 
     private fun loadUsers() {
