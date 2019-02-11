@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseUser
 import com.tests.commercial.chatapp.dialogs.ProgressDialog
 
 class LoginActivity : AppCompatActivity() {
@@ -20,7 +19,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var mBtnLogin: Button
 
     private lateinit var mAuth: FirebaseAuth
-    private lateinit var mDbReference: DatabaseReference
+    //    private lateinit var mDbReference: DatabaseReference
+    private lateinit var mFirebaseUser: FirebaseUser
 
     private val TAG_DIALOG_PROGRESS = "tag_dialog_progress"
 
@@ -34,6 +34,12 @@ class LoginActivity : AppCompatActivity() {
         mBtnLogin = findViewById(R.id.btn_register)
         mAuth = FirebaseAuth.getInstance()
 
+        if (mAuth.currentUser != null) {
+            mFirebaseUser = mAuth.currentUser!!
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            finish()
+        }
+
         mBtnLogin.setOnClickListener {
             val email = mEmail.text.toString()
             val password = mPassword.text.toString()
@@ -44,47 +50,24 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Password must be at least 6 characters.", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                register(email, password)
+                doLogin(email, password)
             }
         }
     }
 
-    private fun register(email: String, password: String) {
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
-
-                    mDbReference = FirebaseDatabase.getInstance().reference
-                    val firebaseUser = mAuth.currentUser!!
-                    val userId = firebaseUser.uid
-
-                    mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(userId)
-
-                    val hashMap = HashMap<String, String>()
-                    hashMap["id"] = userId
-                    hashMap["user_name"] = "Test"
-                    hashMap["user_photo"] = "photo_url"
-                    hashMap["user_status"] = "Hi everyone there!"
-
-                    mDbReference.setValue(hashMap).addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-
-                    hideProgressDialog()
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "You can't register with this email or password",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+    private fun doLogin(email: String, password: String) {
+        ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this@LoginActivity, "Failed authentication!", Toast.LENGTH_SHORT).show()
             }
+        }
+        hideProgressDialog()
     }
 
     private fun hideProgressDialog() {

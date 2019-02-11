@@ -1,4 +1,4 @@
-package com.tests.commercial.chatapp
+package com.tests.commercial.chatapp.content
 
 import android.os.Bundle
 import android.view.LayoutInflater

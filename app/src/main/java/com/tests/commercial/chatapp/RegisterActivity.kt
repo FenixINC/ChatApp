@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.tests.commercial.chatapp.dialogs.ProgressDialog
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -57,6 +58,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun register(username: String, email: String, password: String) {
+        ProgressDialog().newInstance("Please wait..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -66,9 +68,9 @@ class RegisterActivity : AppCompatActivity() {
 
                     val userMap = HashMap<String, String>()
                     userMap["id"] = mAuth.currentUser?.uid.toString()
-                    userMap["user_name"] = username
-                    userMap["user_status"] = "Hi there"
-                    userMap["user_photo"] = "Image"
+                    userMap["userName"] = username
+                    userMap["userStatus"] = "Hi there"
+                    userMap["userPhoto"] = "Image"
 
                     mDbReference.setValue(userMap).addOnCompleteListener { task ->
                         if (task.isSuccessful) {

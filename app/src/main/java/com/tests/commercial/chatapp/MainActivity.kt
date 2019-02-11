@@ -7,10 +7,17 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
+import com.tests.commercial.chatapp.content.ContentPagerFragment
+import com.tests.commercial.chatapp.model.User
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbReference: DatabaseReference
+    private lateinit var mFirebaseUser: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,16 +27,27 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         mAuth = FirebaseAuth.getInstance()
-        val user = mAuth.currentUser
+        if (mAuth.currentUser != null) {
+            mFirebaseUser = mAuth.currentUser!!
+            mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(mFirebaseUser.uid)
+            mDbReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val user: User = dataSnapshot.getValue(User::class.java)!!
+                    toolbar.title = user.userName
+                }
 
-        if (user == null) {
+                override fun onCancelled(dbError: DatabaseError) {
+                    Timber.e(dbError.message + ", code: " + dbError.code)
+                }
+            })
+        } else {
             startActivity(Intent(this@MainActivity, StartActivity::class.java))
             finish()
         }
 
         supportFragmentManager
             ?.beginTransaction()
-            ?.replace(R.id.content, MainFragment.newInstance())
+            ?.replace(R.id.content, ContentPagerFragment.newInstance())
             ?.commit()
     }
 
@@ -41,6 +59,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
+//            R.id.action_all_users -> {
+//                startActivity(Intent(this@MainActivity, UsersActivity::class.java))
+//            }
             R.id.action_settings -> {
                 startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
             }

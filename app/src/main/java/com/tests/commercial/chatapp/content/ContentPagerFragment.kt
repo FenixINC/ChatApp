@@ -1,4 +1,4 @@
-package com.tests.commercial.chatapp
+package com.tests.commercial.chatapp.content
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,20 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.tests.commercial.chatapp.databinding.FragmentMainBinding
+import com.tests.commercial.chatapp.PageAdapter
+import com.tests.commercial.chatapp.databinding.FragmentPagerContentBinding
 
-class MainFragment : Fragment() {
+class ContentPagerFragment : Fragment() {
 
-    private lateinit var mBinding: FragmentMainBinding
+    private lateinit var mBinding: FragmentPagerContentBinding
 
     companion object {
-        fun newInstance(): MainFragment {
-            return MainFragment()
+        fun newInstance(): ContentPagerFragment {
+            return ContentPagerFragment()
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = FragmentMainBinding.inflate(inflater, container, false)
+        mBinding = FragmentPagerContentBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 
@@ -29,7 +30,9 @@ class MainFragment : Fragment() {
 
         val pageAdapter = PageAdapter(childFragmentManager)
         pageAdapter
+//            .add("All Users",)
             .add("Requests", RequestsFragment.newInstance())
+            .add("All Users", UsersFragment.newInstance())
             .add("Chats", ChatsFragment.newInstance())
 
         mBinding.viewPager.adapter = pageAdapter
