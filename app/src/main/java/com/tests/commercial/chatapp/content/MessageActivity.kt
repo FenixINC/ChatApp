@@ -132,7 +132,8 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
 
     }
 
-    private class ChatMessageAdapter(listener: OnUserListener) : RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
+    private class ChatMessageAdapter(listener: OnUserListener) :
+        RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
         private val mListener: OnUserListener = listener
         private var mList: ArrayList<Chat> = ArrayList()
         private lateinit var mFirebaseUser: FirebaseUser
@@ -147,11 +148,20 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
             return mList[position]
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatMessageAdapter.ViewHolder {
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): ChatMessageAdapter.ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
 
             return when (viewType) {
-                R.layout.item_chat_left -> ViewHolder(ItemChatLeftBinding.inflate(inflater, parent, false))
+                R.layout.item_chat_left -> ViewHolder(
+                    ItemChatLeftBinding.inflate(
+                        inflater,
+                        parent,
+                        false
+                    )
+                )
                 else -> ViewHolder(ItemChatRightBinding.inflate(inflater, parent, false))
             }
         }
@@ -164,7 +174,8 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
             return mList.size
         }
 
-        open inner class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        open inner class ViewHolder(private val binding: ViewDataBinding) :
+            RecyclerView.ViewHolder(binding.root) {
             open fun bind(data: Any, listener: OnUserListener) {
                 binding.setVariable(BR.model, data)
                 binding.setVariable(BR.clickListener, listener)

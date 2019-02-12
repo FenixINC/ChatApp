@@ -2,63 +2,65 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
-                android:layout_marginTop="24dp"
-                android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:textColor="@color/black"
-                      android:textSize="20sp"
-                      android:text="Create New Account"
-                      android:layout_marginBottom="24dp"
-                      android:gravity="center"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="Create New Account"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <EditText
-                    android:id="@+id/username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:hint="Username"
-                    android:inputType="text"/>
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text"
+                android:textColor="@color/black" />
 
             <EditText
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"/>
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black" />
 
             <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:inputType="textPassword"/>
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
 
-            <Button android:layout_width="match_parent"
-                    android:layout_marginTop="24dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btn_register"
-                    android:text="Register"
-                    android:textColor="@color/white"
-                    android:background="@color/purple"
-                    android:textAllCaps="false"/>
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@color/purple"
+                android:text="Register"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
 </layout>

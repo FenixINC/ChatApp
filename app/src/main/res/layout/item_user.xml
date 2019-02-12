@@ -1,59 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
-                name="model"
-                type="com.tests.commercial.chatapp.model.User"/>
-        <variable
-                name="clickListener"
-                type="com.tests.commercial.chatapp.content.OnUserListener"/>
+            name="model"
+            type="com.tests.commercial.chatapp.model.User" />
 
         <variable
-                name="showStatus"
-                type="boolean"/>
+            name="clickListener"
+            type="com.tests.commercial.chatapp.content.OnUserListener" />
+
+        <variable
+            name="showStatus"
+            type="boolean" />
     </data>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{()-> clickListener.onUserClick(model)}"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="@{()-> clickListener.onUserClick(model)}"
+        android:orientation="horizontal">
 
         <ImageView
-                android:id="@+id/user_photo"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/user_photo"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher_round"
+            tools:ignore="ContentDescription" />
 
         <ImageView
-                android:id="@+id/user_status"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_below="@id/user_photo"
-                android:layout_toRightOf="@id/user_photo"
-                android:visibility="@{showStatus ? View.VISIBLE : View.GONE}"
-                android:background="@drawable/user_status_online"
-                android:layout_marginStart="-15dp"
-                android:layout_marginTop="-15dp"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/user_status"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_below="@id/user_photo"
+            android:layout_marginStart="-15dp"
+            android:layout_marginTop="-15dp"
+            android:layout_toRightOf="@id/user_photo"
+            android:background="@drawable/user_status_online"
+            android:visibility="@{showStatus ? View.VISIBLE : View.GONE}"
+            tools:ignore="ContentDescription" />
 
         <TextView
-                android:id="@+id/user_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:layout_toEndOf="@id/user_photo"
-                android:layout_centerInParent="true"
-                android:text="@{model.userName}"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                tools:text="Jack"/>
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/user_photo"
+            android:padding="4dp"
+            android:text="@{model.userName}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="Jack" />
     </RelativeLayout>
 </layout>

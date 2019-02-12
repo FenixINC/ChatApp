@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/purple"
-        android:gravity="center"
-        android:padding="16dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:layout_gravity="center"
-            android:text="Chat App"
-            android:gravity="center"
-            android:textColor="@color/white"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Chat App"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
 
     <Button
-            android:layout_width="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_login"
-            android:text="Login"
-            android:textColor="@color/white"
-            android:background="@color/red"
-            android:textAllCaps="false"/>
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@color/red"
+        android:text="Login"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
 
     <Button
-            android:layout_width="match_parent"
-            android:layout_marginTop="24dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_register"
-            android:text="Need an Account?"
-            android:textColor="@color/purple"
-            android:background="@color/white"
-            android:textAllCaps="false"/>
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@color/white"
+        android:text="Need an Account?"
+        android:textAllCaps="false"
+        android:textColor="@color/purple" />
 </LinearLayout>

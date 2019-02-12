@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-                name="model"
-                type="com.tests.commercial.chatapp.model.Chat"/>
+            name="model"
+            type="com.tests.commercial.chatapp.model.Chat" />
     </data>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <ImageView
-                android:id="@+id/user_photo"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:scaleType="centerCrop"
-                android:layout_alignParentEnd="true"
-                android:src="@mipmap/ic_launcher_round"
-                tools:ignore="ContentDescription"/>
+            android:id="@+id/user_photo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher_round"
+            tools:ignore="ContentDescription" />
 
         <TextView
-                android:layout_gravity="center"
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:padding="4dp"
-                android:text="@{model.userMessage}"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@id/user_photo"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:background="@drawable/background_right"
-                tools:text="Hello"/>
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_toStartOf="@id/user_photo"
+            android:background="@drawable/background_right"
+            android:padding="4dp"
+            android:text="@{model.userMessage}"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:ignore="RelativeOverlap"
+            tools:text="Hello" />
+
+        <TextView
+            android:id="@+id/seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seen"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
     </RelativeLayout>
 </layout>
