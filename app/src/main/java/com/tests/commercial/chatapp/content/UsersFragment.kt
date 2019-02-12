@@ -5,20 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.tests.commercial.chatapp.BR
-import com.tests.commercial.chatapp.R
 import com.tests.commercial.chatapp.databinding.FragmentUsersBinding
 import com.tests.commercial.chatapp.model.User
 import timber.log.Timber
-
 
 class UsersFragment : Fragment(), OnUserListener {
 
