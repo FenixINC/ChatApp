@@ -34,7 +34,7 @@
                     android:id="@+id/message"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:background="@color/background"
                     android:layout_centerVertical="true"
                     android:paddingStart="8dp"
                     android:paddingTop="8dp"
@@ -50,7 +50,7 @@
                     android:layout_height="40dp"
                     android:layout_centerInParent="true"
                     android:layout_alignParentEnd="true"
-                    android:background="@color/white"
+                    android:background="@color/background"
                     android:src="@drawable/ic_send"
                     tools:ignore="ContentDescription"/>
         </RelativeLayout>
