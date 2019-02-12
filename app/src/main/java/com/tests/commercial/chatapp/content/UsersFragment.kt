@@ -60,6 +60,7 @@ class UsersFragment : Fragment(), OnUserListener {
 
             mDbReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    userList.clear()
                     for (snapshot in dataSnapshot.children) {
                         val user = snapshot.getValue(User::class.java)
                         if (user != null && user.id != mFirebaseUser.uid) {
