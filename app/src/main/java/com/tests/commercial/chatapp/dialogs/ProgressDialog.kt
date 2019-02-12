@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.tests.commercial.chatapp.databinding.DialogProgressBinding
 import timber.log.Timber
@@ -12,8 +13,7 @@ class ProgressDialog : DialogFragment() {
     private val KEY_MESSAGE: String = "message"
 
     fun newInstance(message: String): ProgressDialog {
-        val bundle = Bundle()
-        bundle.putString(KEY_MESSAGE, message)
+        val bundle = bundleOf(KEY_MESSAGE to message)
         this@ProgressDialog.isCancelable = false
         return ProgressDialog().apply { arguments = bundle }
     }
