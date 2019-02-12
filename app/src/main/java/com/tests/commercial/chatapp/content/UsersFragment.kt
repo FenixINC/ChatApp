@@ -23,12 +23,10 @@ import timber.log.Timber
 class UsersFragment : Fragment(), OnUserListener {
 
     private lateinit var mBinding: FragmentUsersBinding
-    private lateinit var mAdapter: ContentAdapter
+    private lateinit var mAdapter: UsersAdapter
 
     private lateinit var mDbReference: DatabaseReference
     private lateinit var mFirebaseUser: FirebaseUser
-
-    private var mList = ArrayList<User>()
 
     companion object {
         fun newInstance(): UsersFragment {
@@ -38,7 +36,7 @@ class UsersFragment : Fragment(), OnUserListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentUsersBinding.inflate(inflater, container, false)
-        mAdapter = ContentAdapter(this)
+        mAdapter = UsersAdapter(this)
         return mBinding.root
     }
 
@@ -80,42 +78,6 @@ class UsersFragment : Fragment(), OnUserListener {
                     Timber.e(dbError.message + ", code: " + dbError.code)
                 }
             })
-        }
-    }
-
-    private class ContentAdapter(listener: OnUserListener) : RecyclerView.Adapter<ContentAdapter.ViewHolder>() {
-        private var mList: ArrayList<User> = ArrayList()
-        private val mListener: OnUserListener = listener
-
-        fun setList(list: List<User>) {
-            mList.clear()
-            mList.addAll(list)
-            notifyDataSetChanged()
-        }
-
-        fun getItem(position: Int): User {
-            return mList[position]
-        }
-
-        class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(data: Any, listener: OnUserListener) {
-                binding.setVariable(BR.model, data)
-                binding.setVariable(BR.clickListener, listener)
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentAdapter.ViewHolder {
-            val inflater = LayoutInflater.from(parent.context)
-            val holder: ViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.item_user, parent, false)
-            return ViewHolder(holder)
-        }
-
-        override fun onBindViewHolder(holder: ContentAdapter.ViewHolder, position: Int) {
-            holder.bind(getItem(position), mListener)
-        }
-
-        override fun getItemCount(): Int {
-            return mList.size
         }
     }
 }
