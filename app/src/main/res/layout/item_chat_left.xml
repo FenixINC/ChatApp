@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="8dp"
-            tools:background="@color/background">
+            tools:background="@color/white">
 
         <ImageView
                 android:id="@+id/user_photo"

@@ -2,6 +2,8 @@ package com.tests.commercial.chatapp.content
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +46,18 @@ class UsersFragment : Fragment(), OnUserListener {
         rv.adapter = mAdapter
 
         loadUsers()
+
+        mBinding.search.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                doSearch(s.toString().toLowerCase())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
     }
 
     override fun onUserClick(user: User) {
@@ -55,9 +69,9 @@ class UsersFragment : Fragment(), OnUserListener {
     private fun loadUsers() {
         if (FirebaseAuth.getInstance().currentUser != null) {
             val userList = ArrayList<User>()
+
             mFirebaseUser = FirebaseAuth.getInstance().currentUser!!
             mDbReference = FirebaseDatabase.getInstance().reference.child("Users")
-
             mDbReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     userList.clear()
@@ -75,5 +89,29 @@ class UsersFragment : Fragment(), OnUserListener {
                 }
             })
         }
+    }
+
+    private fun doSearch(filter: String) {
+        val userList = ArrayList<User>()
+        mFirebaseUser = FirebaseAuth.getInstance().currentUser!!
+        val query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("userName")
+            .startAt(filter)
+            .endAt(filter + "\uf8ff")
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                userList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val user = snapshot.getValue(User::class.java)
+                    if (user != null && user.id != mFirebaseUser.uid) {
+                        userList.add(user)
+                    }
+                }
+                mAdapter.setList(userList)
+            }
+
+            override fun onCancelled(dbError: DatabaseError) {
+                Timber.e(dbError.message + ", code: " + dbError.code)
+            }
+        })
     }
 }
