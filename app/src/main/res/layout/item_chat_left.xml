@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="model"
+                type="com.tests.commercial.chatapp.model.Chat"/>
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            tools:background="@color/background">
+
+        <ImageView
+                android:id="@+id/user_photo"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher_round"
+                tools:ignore="ContentDescription"/>
+
+        <TextView
+                android:layout_gravity="center"
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:padding="4dp"
+                android:text="@{model.userMessage}"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/user_photo"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:background="@drawable/background_left"
+                tools:text="Hello"/>
+    </RelativeLayout>
+</layout>

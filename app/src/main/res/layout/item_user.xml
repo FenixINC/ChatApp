@@ -20,13 +20,13 @@
                 android:layout_height="56dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ic_launcher_round"
-                tools:src="@tools:sample/backgrounds/scenic"
                 tools:ignore="ContentDescription"/>
 
         <LinearLayout
                 android:layout_marginStart="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
             <TextView
