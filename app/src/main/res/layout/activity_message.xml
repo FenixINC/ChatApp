@@ -41,6 +41,7 @@
                     android:paddingEnd="41dp"
                     android:paddingBottom="8dp"
                     android:hint="Type a message"
+                    android:textColor="@color/black"
                     android:inputType="text"
                     tools:ignore="Autofill"/>
 
