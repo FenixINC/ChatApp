@@ -72,8 +72,8 @@ class RegisterActivity : AppCompatActivity() {
                     val userMap = HashMap<String, String>()
                     userMap["id"] = mAuth.currentUser?.uid.toString()
                     userMap["userName"] = username
-                    userMap["userStatus"] = "Hi there"
-                    userMap["userPhoto"] = "Image"
+                    userMap["userStatus"] = "offline"
+                    userMap["userPhoto"] = "default"
 
                     mDbReference.setValue(userMap).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
