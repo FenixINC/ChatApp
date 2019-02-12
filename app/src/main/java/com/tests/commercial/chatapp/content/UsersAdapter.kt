@@ -9,9 +9,10 @@ import com.tests.commercial.chatapp.BR
 import com.tests.commercial.chatapp.R
 import com.tests.commercial.chatapp.model.User
 
-class UsersAdapter(listener: OnUserListener) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
+class UsersAdapter(listener: OnUserListener, showStatus: Boolean) : RecyclerView.Adapter<UsersAdapter.ViewHolder>() {
     private var mList: ArrayList<User> = ArrayList()
     private val mListener: OnUserListener = listener
+    private val mShowStatus = showStatus
 
     fun setList(list: List<User>) {
         mList.clear()
@@ -24,9 +25,10 @@ class UsersAdapter(listener: OnUserListener) : RecyclerView.Adapter<UsersAdapter
     }
 
     class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Any, listener: OnUserListener) {
+        fun bind(data: Any, listener: OnUserListener, showStatus: Boolean) {
             binding.setVariable(BR.model, data)
             binding.setVariable(BR.clickListener, listener)
+            binding.setVariable(BR.showStatus, showStatus && data is User && data.userStatus == "online")
         }
     }
 
@@ -37,7 +39,7 @@ class UsersAdapter(listener: OnUserListener) : RecyclerView.Adapter<UsersAdapter
     }
 
     override fun onBindViewHolder(holder: UsersAdapter.ViewHolder, position: Int) {
-        holder.bind(getItem(position), mListener)
+        holder.bind(getItem(position), mListener, mShowStatus)
     }
 
     override fun getItemCount(): Int {

@@ -22,6 +22,7 @@ import com.tests.commercial.chatapp.model.User
 import timber.log.Timber
 
 class MessageActivity : AppCompatActivity(), OnUserListener {
+
     private lateinit var mToolbar: Toolbar
 
     private lateinit var mFirebaseUser: FirebaseUser
@@ -110,6 +111,23 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
         })
     }
 
+    private fun setUserStatus(status: String) {
+        val map = HashMap<String, Any>()
+        map["userStatus"] = status
+        mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(mFirebaseUser.uid)
+        mDbReference.updateChildren(map)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUserStatus("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        setUserStatus("offline")
+    }
+
     override fun onUserClick(user: User) {
 
     }
@@ -136,8 +154,6 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
                 R.layout.item_chat_left -> ViewHolder(ItemChatLeftBinding.inflate(inflater, parent, false))
                 else -> ViewHolder(ItemChatRightBinding.inflate(inflater, parent, false))
             }
-//            val holder: ViewDataBinding = DataBindingUtil.inflate(inflater, R.layout.item_user, parent, false)
-//            return ViewHolder(holder)
         }
 
         override fun onBindViewHolder(holder: ChatMessageAdapter.ViewHolder, position: Int) {
@@ -162,17 +178,5 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
                 else -> R.layout.item_chat_left
             }
         }
-
-//        inner class ChatMessageLeftHolder(private val binding: ItemChatLeftBinding) : ViewHolder(binding) {
-//            override fun bind(data: Any, listener: OnUserListener) {
-//                super.bind(data, listener)
-//            }
-//        }
-//
-//        inner class ChatMessageRightHolder(private val binding: ItemChatRightBinding) : ViewHolder(binding) {
-//            override fun bind(data: Any, listener: OnUserListener) {
-//                super.bind(data, listener)
-//            }
-//        }
     }
 }

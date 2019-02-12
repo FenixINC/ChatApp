@@ -32,7 +32,7 @@ class ChatsFragment : Fragment(), OnUserListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentChatsBinding.inflate(inflater, container, false)
-        mAdapter = UsersAdapter(this)
+        mAdapter = UsersAdapter(this, false)
         return mBinding.root
     }
 

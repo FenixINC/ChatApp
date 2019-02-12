@@ -31,7 +31,7 @@ class UsersFragment : Fragment(), OnUserListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mBinding = FragmentUsersBinding.inflate(inflater, container, false)
-        mAdapter = UsersAdapter(this)
+        mAdapter = UsersAdapter(this, true)
         return mBinding.root
     }
 

@@ -17,6 +17,7 @@
     <color name="purple">#512da7</color>
     <color name="red">#F44336</color>
     <color name="green">#2B572B</color>
+    <color name="greenLight">#00C700</color>
 
     <color name="grayDark">#273d56</color>
     <color name="grayDark10">#476483</color>

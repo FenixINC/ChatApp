@@ -74,4 +74,21 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+    private fun setUserStatus(status: String) {
+        val map = HashMap<String, Any>()
+        map["userStatus"] = status
+        mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(mFirebaseUser.uid)
+        mDbReference.updateChildren(map)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setUserStatus("online")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        setUserStatus("offline")
+    }
 }
