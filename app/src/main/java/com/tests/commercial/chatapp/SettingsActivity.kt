@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
@@ -18,11 +20,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.StorageTask
 import com.google.firebase.storage.UploadTask
 import com.tests.commercial.chatapp.databinding.ActivitySettingsBinding
+import com.tests.commercial.chatapp.dialogs.ProgressDialog
 import com.tests.commercial.chatapp.model.User
 import jp.wasabeef.glide.transformations.CropSquareTransformation
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import timber.log.Timber
-import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -53,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
                     mBinding.model = user
 
                     Glide.with(applicationContext)
-                        .load("http://pics.wikireality.ru/upload/thumb/a/a1/Calm_down.jpg/300px-Calm_down.jpg")
+                        .load(user.userPhoto)
                         .apply(
                             RequestOptions()
                                 .transforms(
@@ -88,35 +90,31 @@ class SettingsActivity : AppCompatActivity() {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))!!
     }
 
-//    private fun uploadImage() {
-//        ProgressDialog().newInstance("Uploading..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
-//        if (imageUri != null) {
-//            val fileReference = mStorageReference.child(getFileExtension(imageUri))
-//            mStorageTask = fileReference.getFile(imageUri)
-////            uploadTask.continueW
-//        } else {
-//            Toast.makeText(this@SettingsActivity, "No image selected!", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
     private fun uploadImage() {
         if (imageUri != null) {
-            val ref: StorageReference = mStorageReference.child("images/" + getFileExtension(imageUri))
-            ref.putFile(imageUri)
-                .addOnProgressListener {
-
-                }
+            ProgressDialog().newInstance("Uploading..").show(supportFragmentManager, TAG_DIALOG_PROGRESS)
+            val ref = mStorageReference.child("images/")
             mStorageTask = ref.putFile(imageUri)
-            mStorageTask.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val uri = task.result
-                    val strUri = uri.toString()
 
-                    mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(mFirebaseUser.uid)
-                    val map = HashMap<String, Any>()
-                    map["userPhoto"] = strUri
-                    mDbReference.updateChildren(map)
+            val urlTask = mStorageTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
                 }
+                hideProgressDialog()
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    val map = HashMap<String, Any>()
+                    map["userPhoto"] = downloadUri.toString()
+                    mDbReference = FirebaseDatabase.getInstance().getReference("Users").child(mFirebaseUser.uid)
+                    mDbReference.updateChildren(map)
+                } else {
+                    Timber.e(task.exception)
+                }
+                hideProgressDialog()
             }
         }
     }
