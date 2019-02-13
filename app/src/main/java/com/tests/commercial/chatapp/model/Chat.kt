@@ -11,11 +11,15 @@ data class Chat(
     var userReceiver: String,
 
     @SerializedName("userMessage")
-    var userMessage: String
+    var userMessage: String,
+
+    @SerializedName("isMessageSeen")
+    var isMessageSeen: Boolean
 ) {
     constructor() : this(
         "",
         "",
-        ""
+        "",
+        false
     )
 }

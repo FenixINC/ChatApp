@@ -29,6 +29,8 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
     private lateinit var mDbReference: DatabaseReference
     private lateinit var mAdapter: ChatMessageAdapter
 
+    private lateinit var mSeenListener: ValueEventListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
@@ -76,13 +78,37 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
             }
             editTextMessage.setText("")
         }
+
+        seenMessage(mFirebaseUser.uid)
+    }
+
+    private fun seenMessage(userId: String) {
+        mDbReference = FirebaseDatabase.getInstance().getReference("Users")
+        mSeenListener = mDbReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    val chat = snapshot.getValue(Chat::class.java)
+                    if (chat != null && chat.userReceiver == mFirebaseUser.uid && chat.userSender == userId) {
+                        val map = HashMap<String, Any>()
+                        map["isMessageSeen"] = true
+                        snapshot.ref.updateChildren(map)
+                    }
+                }
+            }
+
+            override fun onCancelled(dbError: DatabaseError) {
+                Timber.e(dbError.message + ", code: " + dbError.code)
+            }
+        })
+
     }
 
     private fun sendMessage(sender: String, receiver: String, message: String) {
-        val messageHashMap = HashMap<String, String>()
+        val messageHashMap = HashMap<String, Any>()
         messageHashMap["userSender"] = sender
         messageHashMap["userReceiver"] = receiver
         messageHashMap["userMessage"] = message
+        messageHashMap["isMessageSeen"] = false
 
         mDbReference = FirebaseDatabase.getInstance().reference
         mDbReference.child("Chats").push().setValue(messageHashMap)
@@ -126,6 +152,7 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
     override fun onPause() {
         super.onPause()
         setUserStatus("offline")
+        mDbReference.removeEventListener(mSeenListener)
     }
 
     override fun onUserClick(user: User) {
@@ -134,8 +161,10 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
 
     private class ChatMessageAdapter(listener: OnUserListener) :
         RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
+
         private val mListener: OnUserListener = listener
         private var mList: ArrayList<Chat> = ArrayList()
+
         private lateinit var mFirebaseUser: FirebaseUser
 
         fun setList(list: List<Chat>) {
@@ -167,18 +196,28 @@ class MessageActivity : AppCompatActivity(), OnUserListener {
         }
 
         override fun onBindViewHolder(holder: ChatMessageAdapter.ViewHolder, position: Int) {
-            holder.bind(getItem(position), mListener)
+            var messageStatus = ""
+            if (position == mList.size - 1) {
+                messageStatus = if (getItem(position).isMessageSeen) {
+                    "Seen"
+                } else {
+                    "Delivered"
+                }
+            }
+            holder.bind(getItem(position), mListener, messageStatus)
         }
 
         override fun getItemCount(): Int {
             return mList.size
         }
 
-        open inner class ViewHolder(private val binding: ViewDataBinding) :
+        inner class ViewHolder(private val binding: ViewDataBinding) :
             RecyclerView.ViewHolder(binding.root) {
-            open fun bind(data: Any, listener: OnUserListener) {
+
+            fun bind(data: Any, listener: OnUserListener, messageStatus: String) {
                 binding.setVariable(BR.model, data)
                 binding.setVariable(BR.clickListener, listener)
+                binding.setVariable(BR.messageStatus, messageStatus)
             }
         }
 
