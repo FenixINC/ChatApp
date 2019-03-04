@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var mEmail: EditText
     private lateinit var mPassword: EditText
-    private lateinit var mBtnLogin: Button
 
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mFirebaseUser: FirebaseUser
@@ -39,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
 
         mEmail = findViewById(R.id.email)
         mPassword = findViewById(R.id.password)
-        mBtnLogin = findViewById(R.id.btn_register)
         mAuth = FirebaseAuth.getInstance()
 
         if (mAuth.currentUser != null) {
@@ -48,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        mBtnLogin.setOnClickListener {
+        findViewById<Button>(R.id.btn_login).setOnClickListener {
             val email = mEmail.text.toString()
             val password = mPassword.text.toString()
 
@@ -60,6 +59,10 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 doLogin(email, password)
             }
+        }
+
+        findViewById<TextView>(R.id.reset_password).setOnClickListener {
+            startActivity(Intent(this@LoginActivity, ResetPasswordActivity::class.java))
         }
     }
 
